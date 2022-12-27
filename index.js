@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => res.send("ok"));
-app.get("/test", (req, res) => res.send(`{status:200, message:"ok"}`));
+app.get("/test", (req, res) => res.send(`{status:200, message: ok}`));
 app.get("/time", (req, res) => {
   let date_Timing = new Date();
 
@@ -19,6 +19,28 @@ app.get("/time", (req, res) => {
   };
 
   res.send(response);
+});
+
+// Create a route such as, when the url /hello/<ID> is invoked, answers with: {status:200, message:"Hello, <ID>"}.
+app.get(`/hello`, (req, res) => {
+  res.send(`{status:200, message: Hello}`);
+});
+app.get(`/hello/:id`, (req, res) => {
+  res.send({ status: 200, message: `Hello, ${req.params.id}` });
+});
+
+// Create a route such as, when the url /search?s=<SEARCH> is invoked, answers with {status:200, message:"ok", data:<SEARCH>}
+app.get('/search', (req, res) => {
+  let search = req.query.s;
+  if (search) {
+    res.status(200).json({ status: 200, message: "Ok", data: { search } });
+  } else {
+    res.status(500).json({
+      status: 500,
+      error: true,
+      message: "something went wrong",
+    });
+  }
 });
 
 app.listen(port, () => {
