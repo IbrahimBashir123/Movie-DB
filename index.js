@@ -10,7 +10,8 @@ app.get("/time", (req, res) => {
 
   let hours = date_Timing.getHours();
   let minutes = date_Timing.getMinutes();
-  let dateTime = hours + ":" + minutes;
+  let seconds = date_Timing.getSeconds();
+  let dateTime = hours + ":" + minutes + ":" + seconds;
 
   const response = {
     status: 200,
