@@ -30,7 +30,7 @@ app.get(`/hello/:id`, (req, res) => {
 });
 
 // Create a route such as, when the url /search?s=<SEARCH> is invoked, answers with {status:200, message:"ok", data:<SEARCH>}
-app.get('/search', (req, res) => {
+app.get("/search", (req, res) => {
   let search = req.query.s;
   if (search) {
     res.status(200).json({ status: 200, message: "Ok", data: { search } });
@@ -41,6 +41,32 @@ app.get('/search', (req, res) => {
       message: "something went wrong",
     });
   }
+});
+
+//With Express, create four routes: /movies/create, /movies/read, /movies/update, and /movies/delete, where these routes can answer anything (we will change it later)
+//OPTIONAL: call your routes movies/add, movies/get, /movies/edit, and /movies/delete, if you prefer. It doesn't matter
+
+const movies = [
+  { title: "Jaws", year: 1975, rating: 8 },
+  { title: "Avatar", year: 2009, rating: 7.8 },
+  { title: "Brazil", year: 1985, rating: 8 },
+  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2 },
+];
+
+app.get("/movies", (req, res) => {
+  res.json({ status: 200, message: "Movies" });
+});
+app.get("/movies/create", (req, res) => {
+  res.json({ status: 200, message: "add" });
+});
+app.get("/movies/read", (req, res) => {
+  res.json({ status: 200, data: movies });
+});
+app.get("/movies/update", (req, res) => {
+  res.json({ status: 200, message: "edit" });
+});
+app.get("/movies/delete", (req, res) => {
+  res.json({ status: 200, message: "delete" });
 });
 
 app.listen(port, () => {
