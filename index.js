@@ -46,10 +46,10 @@ app.get("/search", (req, res) => {
 //With Express, create four routes: /movies/create, /movies/read, /movies/update, and /movies/delete, where these routes can answer anything (we will change it later)
 
 const movies = [
-  { title: "Jaws", year: 1975, rating: 8 },
-  { title: "Avatar", year: 2009, rating: 7.8 },
-  { title: "Brazil", year: 1985, rating: 8 },
-  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2 },
+  { title: "Jaws", year: 1975, rating: 8, id: 1 },
+  { title: "Avatar", year: 2009, rating: 7.8, id: 2 },
+  { title: "Brazil", year: 1985, rating: 8, id: 3 },
+  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2, id: 4 },
 ];
 
 app.get("/movies", (req, res) => {
@@ -114,6 +114,19 @@ app.get("/movies/read/by-title", (req, res) => {
   });
 });
 // -----
+
+//READ ONE By if/else
+
+app.get("/movies/read/:id", (req, res) => {
+      if (req.params.id<1 || req.params.id>4) {
+        res.status(404).send({status:404, error:true, message:`the movie ${req.params.id} does not exist`});
+
+
+      }else { 
+
+        res.send({status:200, data:movies.filter((movie)=>{return movie.id==req.params.id})})
+      }
+    });
 
 app.listen(port, () => {
   console.log("server is at http://localhost:3000");
