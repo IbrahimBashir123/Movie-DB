@@ -44,7 +44,6 @@ app.get("/search", (req, res) => {
 });
 
 //With Express, create four routes: /movies/create, /movies/read, /movies/update, and /movies/delete, where these routes can answer anything (we will change it later)
-//OPTIONAL: call your routes movies/add, movies/get, /movies/edit, and /movies/delete, if you prefer. It doesn't matter
 
 const movies = [
   { title: "Jaws", year: 1975, rating: 8 },
@@ -68,6 +67,53 @@ app.get("/movies/update", (req, res) => {
 app.get("/movies/delete", (req, res) => {
   res.json({ status: 200, message: "delete" });
 });
+
+
+// Sorting by date/rate/title step 6
+app.get("/movies/read/by-date", (req, res) => {
+  res.json({
+    status: 200,
+    data: movies.sort((a, b) => {
+      if (a.year < b.year) {
+        return 1;
+      }
+      if (a.year > b.year) {
+        return -1;
+      }
+      return 0;
+    }),
+  });
+});
+app.get("/movies/read/by-rating", (req, res) => {
+  res.json({
+    status: 200,
+    data: movies.sort((a, b) => {
+      if (a.rating < b.rating) {
+        return 1;
+      }
+      if (a.rating > b.rating) {
+        return -1;
+      }
+      return 0;
+    }),
+  });
+});
+
+app.get("/movies/read/by-title", (req, res) => {
+  res.json({
+    status: 200,
+    data: movies.sort((a, b) => {
+      if (a.title < b.title) {
+        return -1;
+      }
+      if (a.title > b.title) {
+        return 1;
+      }
+      return 0;
+    }),
+  });
+});
+// -----
 
 app.listen(port, () => {
   console.log("server is at http://localhost:3000");
