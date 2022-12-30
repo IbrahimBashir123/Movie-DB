@@ -68,7 +68,6 @@ app.get("/movies/delete", (req, res) => {
   res.json({ status: 200, message: "delete" });
 });
 
-
 // Sorting by date/rate/title step 6
 app.get("/movies/read/by-date", (req, res) => {
   res.json({
@@ -115,18 +114,42 @@ app.get("/movies/read/by-title", (req, res) => {
 });
 // -----
 
-//READ ONE By if/else
-
+//READ ONE By if/else -Step 7
 app.get("/movies/read/:id", (req, res) => {
-      if (req.params.id<1 || req.params.id>4) {
-        res.status(404).send({status:404, error:true, message:`the movie ${req.params.id} does not exist`});
-
-
-      }else { 
-
-        res.send({status:200, data:movies.filter((movie)=>{return movie.id==req.params.id})})
-      }
+  if (req.params.id < 1 || req.params.id > 4) {
+    res.status(404).send({
+      status: 404,
+      error: true,
+      message: `the movie ${req.params.id} does not exist`,
     });
+  } else {
+    res.send({
+      status: 200,
+      data: movies.filter((movie) => {
+        return movie.id == req.params.id;
+      }),
+    });
+  }
+});
+
+// Step 8 - CREATE
+app.get("/movies/add", (req, res) => {
+  const { title, year, rating } = req.query;
+  if (!title || !year || year.length !== 4 || isNaN(year)) {
+    return res.status(403).send({
+      status: 403,
+      error: true,
+      message: "you cannot create a movie without providing a title and a year",
+    });
+  }
+  const newMovie = {
+    title,
+    year,
+    rating: rating || 4,
+  };
+  movies.push(newMovie);
+  res.send(movies);
+});
 
 app.listen(port, () => {
   console.log("server is at http://localhost:3000");
