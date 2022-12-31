@@ -167,6 +167,32 @@ app.get('/movies/delete/:id', (req, res) => {
   }
 });
 
+//Step 10 - UPDATE
+app.get('/movies/update/:id', function (req, res) {
+  let { id } = req.params;
+  let { title, year, rating } = req.query;
+  if (year) year = parseInt(year);
+  console.log(title + " " + year + " " + rating)
+  let bodyOkay = title || (year && year.toString().length === 4 && typeof year === "number") || rating;
+  if (!bodyOkay) return res.status(403).json({
+      status: 403,
+      error: true,
+      message: 'you cannot update the movie'
+  });
+
+  let movie = movies.find(item => item.id == id);
+  if (!movie) return res.status(404).json({
+      status: 404, error: true, message: `the movie ${id} does not exist`
+  });
+
+  if (title) movie.title = title;
+  if (year) movie.year = year;
+  if (rating) movie.rating = rating;
+
+  res.send({ status: 200, data: movies });
+});
+
+
 app.listen(port, () => {
   console.log("server is at http://localhost:3000");
 });
