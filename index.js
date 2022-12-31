@@ -133,7 +133,7 @@ app.get("/movies/read/:id", (req, res) => {
 });
 
 // Step 8 - CREATE
-app.get("/movies/add", (req, res) => {
+app.post("/movies/add", (req, res) => {
   const { title, year, rating } = req.query;
   if (!title || !year || year.length !== 4 || isNaN(year)) {
     return res.status(403).send({
@@ -152,7 +152,7 @@ app.get("/movies/add", (req, res) => {
 });
 
 //Step 9 - DELETE
-app.get('/movies/delete/:id', (req, res) => {
+app.delete('/movies/delete/:id', (req, res) => {
   const id = req.params.id;
   const index = movies.findIndex(movie => movie.id == id);
   if (index === -1) {
@@ -168,7 +168,7 @@ app.get('/movies/delete/:id', (req, res) => {
 });
 
 //Step 10 - UPDATE
-app.get('/movies/update/:id', function (req, res) {
+app.put('/movies/update/:id', function (req, res) {
   let { id } = req.params;
   let { title, year, rating } = req.query;
   if (year) year = parseInt(year);
@@ -191,6 +191,14 @@ app.get('/movies/update/:id', function (req, res) {
 
   res.send({ status: 200, data: movies });
 });
+
+//Step 11 - Use HTTP Verbs
+
+// /users/:id route, the app.post() method is used to handle POST requests to the /users route.
+// the app.put() method is used to handle PUT requests to the /users/:id route.
+// the app.delete() method is used to handle DELETE requests to the /users/:id route.
+// The :id parameter in the route path is a placeholder for a specific resource ID, which can be accessed via the req.params.id property in the request handler function.
+
 
 
 app.listen(port, () => {
