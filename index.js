@@ -151,6 +151,22 @@ app.get("/movies/add", (req, res) => {
   res.send(movies);
 });
 
+//Step 9 - DELETE
+app.get('/movies/delete/:id', (req, res) => {
+  const id = req.params.id;
+  const index = movies.findIndex(movie => movie.id == id);
+  if (index === -1) {
+    res.status(404).json({
+      status: 404,
+      error: true,
+      message: `The movie ${id} does not exist`
+    });
+  } else {
+    movies.splice(index, 1);
+    res.json(movies);
+  }
+});
+
 app.listen(port, () => {
   console.log("server is at http://localhost:3000");
 });
